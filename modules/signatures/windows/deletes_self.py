@@ -30,8 +30,9 @@ class DeletesSelf(Signature):
             for cmdline in process.get("summary", {}).get("command_line", []):
                 processes.append(cmdline)
 
-        for deletedfile in self.get_files(actions=["file_deleted"]):
-            if deletedfile in processes[0]:
-                self.mark_ioc("file", deletedfile)
+        if processes:
+            for deletedfile in self.get_files(actions=["file_deleted"]):
+                if deletedfile in processes[0]:
+                    self.mark_ioc("file", deletedfile)
 
         return self.has_marks()
